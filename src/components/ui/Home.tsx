@@ -17,13 +17,21 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { BoardsEntity, BoardsType } from "@/types/boards";
+import { PromptType } from "@/types/prompt";
 
-import DATA from "@/data/bfc-boards.json";
-import PROMPTS from "@/data/prompts.json";
+// import DATA from "@/data/bfc-boards.json";
+// import PROMPTS from "@/data/prompts.json";
 
-export default function Home({ BOARDS, PROMPT }: { BOARDS: any; PROMPT: any }) {
+export default function Home({
+  BOARDS,
+  PROMPT,
+}: {
+  BOARDS: BoardsType;
+  PROMPT: PromptType[];
+}) {
   const [Case, setCase] = useState<string>("");
-  const CASE = DATA.boards.find((v) => v.name === Case);
+  const CASE = BOARDS?.boards?.find((v: BoardsEntity) => v.name === Case);
 
   return (
     <main className="grid h-screen w-screen">
@@ -34,7 +42,7 @@ export default function Home({ BOARDS, PROMPT }: { BOARDS: any; PROMPT: any }) {
               <SelectValue placeholder="Select Use Case" />
             </SelectTrigger>
             <SelectContent>
-              {DATA.boards.map((v, i) => (
+              {BOARDS?.boards?.map((v, i) => (
                 <SelectItem key={i} value={v.name}>
                   {v.name}
                 </SelectItem>
@@ -46,7 +54,7 @@ export default function Home({ BOARDS, PROMPT }: { BOARDS: any; PROMPT: any }) {
               <SelectValue placeholder="Select Prompt" />
             </SelectTrigger>
             <SelectContent>
-              {PROMPTS.map((v, i) => (
+              {PROMPT.map((v, i) => (
                 <SelectItem key={i} value={v.name}>
                   {v.name}
                 </SelectItem>
@@ -63,7 +71,7 @@ export default function Home({ BOARDS, PROMPT }: { BOARDS: any; PROMPT: any }) {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              {CASE.bcfs.map((v, i) => (
+              {CASE?.bcfs?.map((v, i) => (
                 <>
                   <div className="p-4 flex flex-col">
                     <p>{v.name}</p>
@@ -72,7 +80,7 @@ export default function Home({ BOARDS, PROMPT }: { BOARDS: any; PROMPT: any }) {
                       {/* {moment(v.createdAt).format("DD-MM-YYYY HH:mm:ss")} */}
                     </p>
                     <p className="flex gap-1">
-                      {v.bcfBoards.map((j) => (
+                      {v?.bcfBoards?.map((j) => (
                         <Badge key={j.id} variant="secondary">
                           {j.name}
                         </Badge>
